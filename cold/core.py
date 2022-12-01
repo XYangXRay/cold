@@ -7,6 +7,7 @@ from scipy import signal, ndimage, optimize, interpolate, linalg
 from scipy.interpolate import BSpline
 from cold import pack, partition, loadsingle, load, saveplt
 from cold import mask as cmask
+from cold import dnn
 from skimage.feature import blob_log
 import multiprocessing
 import warnings
@@ -278,6 +279,9 @@ def sigrecon(data, msk, pos, sig, algo, base, ix):
             coefs = optimize.nnls(np.dot(kernel, base), data)[0][::-1]
             sig = np.dot(base, coefs)
             sig /= sig.sum()
+        if algo['sig']['method'] == 'dnn':
+             model = dnn.ca_fit(base, kernel, num_epochs = 2001)
+             sig = dnn.signal_compute(model, base)
     else:
         sig *= 0
     return sig
