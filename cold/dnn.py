@@ -65,10 +65,10 @@ def ca_fit(data, kernel, num_epochs = 2001):
             # print("Epoch {:04d}: Loss: {:.5f}".format(epoch, loss_value))
     return model
 
-def signal_compute(model, data):
+def signal_compute(model, data, kernel):
     sig_dnn = model(data)
     sig_dnn = tfnor_recon(sig_dnn)
-    sig_dnn = np.reshape(sig_dnn,(256))
+    sig_dnn = np.reshape(sig_dnn,(kernel.shape[1]))
     return sig_dnn
 
 

@@ -280,8 +280,10 @@ def sigrecon(data, msk, pos, sig, algo, base, ix):
             sig = np.dot(base, coefs)
             sig /= sig.sum()
         if algo['sig']['method'] == 'dnn':
-             model = dnn.ca_fit(base, kernel, num_epochs = 2001)
-             sig = dnn.signal_compute(model, base)
+             print(kernel.shape, data.shape)
+             data = np.reshape(data, (1, data.size))
+             model = dnn.ca_fit(data, kernel, num_epochs = 2001)
+             sig = dnn.signal_compute(model, data, kernel)
     else:
         sig *= 0
     return sig

@@ -63,6 +63,7 @@ def load(file, collapsed=True, index=None):
 
 
 def loadh5files2(files, key, frame):
+    print(files)
     data = initdata2(files, key, frame)
     for m in range(len(files)):
         data[:, :, m] = loadh52(files[m], key, frame)
