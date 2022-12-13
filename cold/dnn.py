@@ -39,9 +39,8 @@ def loss(model, data, kernel):
     loss_object = tf.keras.losses.MeanSquaredError() 
     recon = model(data, kernel)
     recon = tfnor_recon(recon)
-    # print(recon.shape)
+    # print(recon)
     recon = tf.reshape(recon, kernel.shape[1])
-    # print(recon.shape)
     data_model = tf.tensordot(kernel, recon, axes=1)
     data_model = tfnor_data(data_model)   
      
@@ -54,6 +53,8 @@ def grad(model, data, kernel):
   return loss_value, tape.gradient(loss_value, model.trainable_variables)
 
 def ca_fit(data, kernel, num_epochs = 2001):
+    data = tf.cast(data, tf.float32)
+    kernel = tf.cast(kernel, tf.float32)
     train_loss_results = []
     model = nn_model(data, kernel)
     optimizer = tf.keras.optimizers.Adam(learning_rate=0.001)
@@ -65,10 +66,10 @@ def ca_fit(data, kernel, num_epochs = 2001):
             # print("Epoch {:04d}: Loss: {:.5f}".format(epoch, loss_value))
     return model
 
-def signal_compute(model, data, kernel):
+def signal_compute(model, data, sig_l):
     sig_dnn = model(data)
     sig_dnn = tfnor_recon(sig_dnn)
-    sig_dnn = np.reshape(sig_dnn,(kernel.shape[1]))
+    sig_dnn = np.reshape(sig_dnn,(sig_l))
     return sig_dnn
 
 

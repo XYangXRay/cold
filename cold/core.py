@@ -18,9 +18,6 @@ __copyright__ = "Copyright (c) 2021, UChicago Argonne, LLC."
 __docformat__ = 'restructuredtext en'
 
 
-
-
-
 def decode(data, ind, comp, geo, algo, pos=None, debug=False):
     """Decodes the position and pixel footprints and their positions
     on the mask using coded measurement data."""
@@ -280,14 +277,16 @@ def sigrecon(data, msk, pos, sig, algo, base, ix):
             sig = np.dot(base, coefs)
             sig /= sig.sum()
         if algo['sig']['method'] == 'dnn':
-             print(kernel.shape, data.shape)
-             data = np.reshape(data, (1, data.size))
-             model = dnn.ca_fit(data, kernel, num_epochs = 2001)
-             sig = dnn.signal_compute(model, data, kernel)
+             data = np.reshape(data, (1, data.size))  
+             data = dnn.nor_data(data)          
+             kernel_tmp = np.dot(kernel, base)    
+             model = dnn.ca_fit(data, kernel_tmp, num_epochs = 401)
+             coefs = dnn.signal_compute(model, data, kernel_tmp.shape[1])[::-1]
+             sig = np.dot(base, coefs)
+             sig /= sig.sum()
     else:
         sig *= 0
     return sig
-
 
 def normalize(data):
     data = data.copy()

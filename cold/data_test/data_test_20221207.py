@@ -5,18 +5,6 @@ import fire
 import dxchange
 
 def main(path, debug=False):
-    file, comp, geo, algo = cold.config(path)
-    # data = cold.loadsingle(file, id=1)
-    # dxchange.write_tiff(data)
-    data, ind = cold.load(file)
-    pos, sig, scl = cold.decode(data, ind, comp, geo, algo, debug=True)
-    dep, lau = cold.resolve(data, ind, pos, sig, geo, comp)
-    shape = geo['detector']['shape']
-    cold.saveimg('tmp/pos/pos', pos, ind, shape)
-    cold.plotarr('tmp/sig/sig', sig, plots=False)
-    cold.saveplt('tmp/dep/dep', dep, geo['source']['grid'])
-    cold.saveimg('tmp/lau/lau', lau, ind, shape, swap=True)
-
 # """Runs the reconstruction workflow given parameters 
 # in a configuration file.
 
@@ -38,6 +26,19 @@ def main(path, debug=False):
 # -------
 # None
 # """
+
+    file, comp, geo, algo = cold.config(path)
+    # data = cold.loadsingle(file, id=1)
+    # dxchange.write_tiff(data)
+    data, ind = cold.load(file)
+    pos, sig, scl = cold.decode(data, ind, comp, geo, algo, debug=True)
+    dep, lau = cold.resolve(data, ind, pos, sig, geo, comp)
+    shape = geo['detector']['shape']
+    cold.saveimg('tmp/pos/pos', pos, ind, shape)
+    cold.plotarr('tmp/sig/sig', sig, plots=False)
+    cold.saveplt('tmp/dep/dep', dep, geo['source']['grid'])
+    cold.saveimg('tmp/lau/lau', lau, ind, shape, swap=True)
+
 
 if __name__ == '__main__':
     fire.Fire(main)

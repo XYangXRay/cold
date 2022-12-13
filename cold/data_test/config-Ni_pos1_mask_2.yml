@@ -4,7 +4,7 @@ ver: 1.0
 file:
     path: '/Users/xiaogangyang/data/ca_doga/Ni_pos1_mask2'
     # range: [0, 601, 1]
-    range: [0, 10, 1]
+    range: [0, 73, 1]
     threshold: 100 # [readout values]
     frame: [0, 2048, 0, 2048] # [pixels]
     ext: 'h5'
@@ -14,12 +14,12 @@ file:
 
 comp:
     server: 'local'
-    workers: 1
+    workers: 8
     functionid: 'd8461388-9442-4008-a5f1-2cfa112f6923'
 
 geo:
     mask: 
-        path: '../../codes/code-debruijn-2-8-000.npy'
+        path: './codes/code-debruijn-2-8-000.npy'
         bitsizes: [15, 7.5] # [mu]
         thickness: 4.6 # [mu]
         resolution: 0.5
