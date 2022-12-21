@@ -208,6 +208,8 @@ def decode(data, ind, comp, geo, algo, pos=None, debug=False):
     sig = pack(sig) 
     scl = pack(scl) 
     ind = pack(ind) 
+    np.save('/Users/xiaogangyang/data/ca_doga/data_all', data)
+    np.save('/Users/xiaogangyang/data/ca_doga/scl_all', scl)
 
     if debug is True:
         plotresults(data, ind, geo[0], pos, sig, scl, algo[0])
@@ -279,11 +281,15 @@ def sigrecon(data, msk, pos, sig, algo, base, ix):
         if algo['sig']['method'] == 'dnn':
              data = np.reshape(data, (1, data.size))  
              data = dnn.nor_data(data)          
-             kernel_tmp = np.dot(kernel, base)    
-             model = dnn.ca_fit(data, kernel_tmp, num_epochs = 401)
+             kernel_tmp = np.dot(kernel, base)              
+            #  np.save('/Users/xiaogangyang/data/ca_doga/data', data)
+            #  np.save('/Users/xiaogangyang/data/ca_doga/kernel_tmp', kernel_tmp)
+            #  np.save('/Users/xiaogangyang/data/ca_doga/kernel', kernel)
+            #  np.save('/Users/xiaogangyang/data/ca_doga/base', base)
+             model = dnn.ca_fit(data, kernel_tmp, num_epochs = 101)
              coefs = dnn.signal_compute(model, data, kernel_tmp.shape[1])[::-1]
              sig = np.dot(base, coefs)
-             sig /= sig.sum()
+            #  sig /= sig.sum()*10
     else:
         sig *= 0
     return sig

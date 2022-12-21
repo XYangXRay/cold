@@ -64,8 +64,8 @@ algo:
         init: 'spline'
 
     sig: 
-        # method: 'splines' 
-        method: 'dnn' 
+        method: 'splines' 
+        # method: 'dnn' 
         order: 1
         scale: 1
         init:

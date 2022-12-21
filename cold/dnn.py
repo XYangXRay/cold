@@ -27,6 +27,7 @@ def nn_model(data, kernel):
        
   # Dropout(0.25),
   # BatchNormalization(),
+  
         Dense(512, activation=tf.nn.relu, use_bias=True),
         Dense(256, activation=tf.nn.relu, use_bias=True),
         Dense(kernel.shape[1])
