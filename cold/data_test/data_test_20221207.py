@@ -34,10 +34,10 @@ def main(path, debug=False):
     pos, sig, scl = cold.decode(data, ind, comp, geo, algo, debug=True)
     dep, lau = cold.resolve(data, ind, pos, sig, geo, comp)
     shape = geo['detector']['shape']
-    cold.saveimg('tmp/pos/pos', pos, ind, shape)
-    cold.plotarr('tmp/sig/sig', sig, plots=False)
-    cold.saveplt('tmp/dep/dep', dep, geo['source']['grid'])
-    cold.saveimg('tmp/lau/lau', lau, ind, shape, swap=True)
+    cold.saveimg('/Users/xiaogangyang/data/ca_doga/20230117/pos/pos', pos, ind, shape)
+    cold.plotarr('/Users/xiaogangyang/data/ca_doga/20230117/sig/sig', sig, plots=False)
+    cold.saveplt('/Users/xiaogangyang/data/ca_doga/20230117/dep/dep', dep, geo['source']['grid'])
+    cold.saveimg('/Users/xiaogangyang/data/ca_doga/20230117/lau/lau', lau, ind, shape, swap=True)
 
 
 if __name__ == '__main__':

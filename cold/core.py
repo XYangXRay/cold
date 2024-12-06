@@ -208,8 +208,8 @@ def decode(data, ind, comp, geo, algo, pos=None, debug=False):
     sig = pack(sig) 
     scl = pack(scl) 
     ind = pack(ind) 
-    np.save('/Users/xiaogangyang/data/ca_doga/data_all', data)
-    np.save('/Users/xiaogangyang/data/ca_doga/scl_all', scl)
+    # np.save('/Users/xiaogangyang/data/ca_doga/data_all', data)
+    # np.save('/Users/xiaogangyang/data/ca_doga/scl_all', scl)
 
     if debug is True:
         plotresults(data, ind, geo[0], pos, sig, scl, algo[0])
@@ -275,6 +275,8 @@ def sigrecon(data, msk, pos, sig, algo, base, ix):
             end =  begin + sig.size
             kernel[m] = msk[begin:end]
         if algo['sig']['method'] == 'splines':
+            np.save(f'/Users/xiaogangyang/data/ca_doga/data/data_{ix}', data)
+            np.save(f'/Users/xiaogangyang/data/ca_doga/kernel/kernel_{ix}', np.dot(kernel, base))
             coefs = optimize.nnls(np.dot(kernel, base), data)[0][::-1]
             sig = np.dot(base, coefs)
             sig /= sig.sum()
@@ -286,10 +288,10 @@ def sigrecon(data, msk, pos, sig, algo, base, ix):
             #  np.save('/Users/xiaogangyang/data/ca_doga/kernel_tmp', kernel_tmp)
             #  np.save('/Users/xiaogangyang/data/ca_doga/kernel', kernel)
             #  np.save('/Users/xiaogangyang/data/ca_doga/base', base)
-             model = dnn.ca_fit(data, kernel_tmp, num_epochs = 101)
-             coefs = dnn.signal_compute(model, data, kernel_tmp.shape[1])[::-1]
+             coefs = dnn.ca_fit(data, kernel_tmp, num_epochs = 2001)[::-1]
+            #  coefs = dnn.signal_compute(model, data, kernel_tmp.shape[1])[::-1]
              sig = np.dot(base, coefs)
-            #  sig /= sig.sum()*10
+             sig /= sig.sum()
     else:
         sig *= 0
     return sig
